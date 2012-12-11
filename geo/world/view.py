@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from world.models import *
 from django.contrib.gis.geos import GEOSGeometry
 from django.contrib.gis.geos import *
-from django.contrib.gis.measure import D
+from django.contrib.gis.measure import Distance, D
 #from django.contrib.gis.geos.point import Point 
 from django.shortcuts import render_to_response
 from django.contrib.gis.geos import Polygon
@@ -67,12 +67,10 @@ def distancia (listD):
                 	p2 = listD[i+1]
 	                #p1 = p1.transform(900913)
         	        #p2 = p2.transform(900913)
-                	#resultado = resultado + D(m=p1.distance(p2)).mi
-	                #resultado = resultado + p1.distance(p2)
-        	        l = LineString(p1,p2)
+                	l = LineString(p1,p2)
                 	resultado = resultado + l.length
                 i = i+1
-        return resultado
+        return Distance(km=resultado)
 
 
 def testDist (peticion):

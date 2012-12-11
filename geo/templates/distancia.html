@@ -4,11 +4,12 @@
 		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 	</head>
 	<body>
-		{{recorrido}}</br></br>
+		Distancia total para los siguiente nodos:
+		<ul>
 		{%for rec in recorrido%}
-			({{rec.lat}},{{rec.lon}})</br></br>
+			<li>({{rec.lat}},{{rec.lon}})</li>
 		{%endfor%}
-
+		</ul>
 		 </br>
                 {{resultado}}
                 </br>
