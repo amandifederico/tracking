@@ -1,0 +1,16 @@
+from django.http import HttpResponse
+from world.models import *
+
+def index(request):
+    return HttpResponse('Hello')
+
+def postgps(peticion,idUsr,longitud,latitud):
+    #c={}
+    #c.update(csrf(peticion))
+    
+    usr = AuthUser.objects.get(pk=idUsr)
+    
+    modelo = Track(usr=AuthUser(1), lon= float(longitud), lat=float(latitud))
+    modelo.save()
+    
+    

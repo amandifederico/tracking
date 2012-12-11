@@ -1,0 +1,11 @@
+from django.conf.urls import patterns, url, include
+from django.contrib.gis import admin
+from world.view import *
+
+admin.autodiscover()
+
+urlpatterns = patterns('',
+    url(r'^admin/', include(admin.site.urls)),
+    #(r'', include('geo.world.urls')),
+    (r'^postgps/(\d{1,2})/(-\d+\.\d+)/(-\d+\.\d+)/$',postgps)
+)

@@ -1,0 +1,35 @@
+from django.conf.urls import patterns, url, include
+from django.contrib.gis import admin
+from world.view import *
+import os
+admin.autodiscover()
+
+urlpatterns = patterns('',
+    url(r'^admin/', include(admin.site.urls)),
+    #(r'', include('geo.world.urls')),
+    (r'^postgps/(\d{1,2})/(-\d+\.\d+)/(-\d+\.\d+)/$',postgps),
+    (r'^informe/(\d{1,2})/$',informe),
+    (r'^reporte/$',reporte),
+    (r'^report/$',report),
+    (<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    </head>
+<body>
+  <script src="funciones.js" type="text/javascript"></script>
+  <h1>Sauron - "El ojo que todo lo ve..."</h1>
+
+  {{track}}
+  {%for tra in track%}
+        <p>Longitud: {{tra.lon}} Latitud: {{tra.lat}}</p><br>
+  {%endfor%}
+
+</body>
+</html>
+)
+    (r'^site_media/(?P<path>.*)$','django.views.static.serve',
+        {'document_root':'/var/www/geo/media'}),
+    (r'^static/(?P<path>.*)$','django.views.static.serve',
+        {'document_root': '/var/www/geo/media'})
+)
