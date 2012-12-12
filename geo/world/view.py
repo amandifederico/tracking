@@ -21,6 +21,9 @@ def sqlQuery():
 def index(request):
     return HttpResponse('Hello')
 
+#
+#Postea una posicion
+#
 def postgps(peticion,idUsr,longitud,latitud):
     c={}
     c.update(csrf(peticion))
@@ -30,7 +33,10 @@ def postgps(peticion,idUsr,longitud,latitud):
     modelo = Track(usr=AuthUser(idUsr), lon= str(longitud), lat=str(latitud))
     modelo.save()
     return HttpResponse ("ok")
-    
+
+#
+#Recupera posiciones para armar recorrido en mapa
+#    
 def report (peticion):
 	cod="new google.maps.LatLng("
 	modelo = Track.objects.all()
@@ -44,7 +50,9 @@ def reporte (peticion):
 	centro = (-43.307958,-65.055286)
 	valor = (cod+"(-43.300212,-65.08257)",cod+"(-43.301485,-65.082248)",cod+"(-43.301555,-65.08272)",cod+"(-43.301751,-65.082602)",cod+"(-43.301384,-65.080059)",cod+"(-43.301727,-65.076937)",cod+"(-43.301727,-65.076937)",cod+"(-43.306537,-65.059267)",cod+"(-43.307958,-65.055286)",cod+"(-43.308777,-65.054224)",cod+"(-43.309027,-65.052604)",cod+"(-43.309199,-65.050222)",cod+"(-43.311268,-65.043281)",cod+"(-43.311479,-65.04298)",cod+"(-43.311322,-65.042637)",cod+"(-43.31151,-65.041178)")
 	return render_to_response('reporte.html',{'centro':centro,'valor':valor},)
-
+#
+#Determina si una posicion se encuentra dentro de un poligono
+#
 def testArea (peticion):
 	modelo = Areas.objects.get(pk=2)	
 	prep_poly = modelo.area.prepared	
@@ -56,6 +64,9 @@ def testArea (peticion):
 		rta = "Fuera de Area"
 	return render_to_response('area.html',{'area':modelo,'resp':rta},)
 
+#
+#Calcula la distancia total de un recorrido
+#
 def distancia (listD):
         TAM = len(listD)
         i = 0
@@ -70,9 +81,11 @@ def distancia (listD):
                 	l = LineString(p1,p2)
                 	resultado = resultado + l.length
                 i = i+1
-        return Distance(km=resultado)
+        return resultado
 
-
+#
+#Retorna la distancia total de un recorrido
+#
 def testDist (peticion):
 	cod="new google.maps.LatLng("
         #cursor = sqlQuery()
@@ -96,7 +109,9 @@ def valUsr (peticion, hashUsr):
 	desencriptado = crypto.decrypt(hashUsr)
 	return render_to_response('prueba.html',{'hash':hashUsr,'desencriptado':desencriptado},)
 
-
+#
+#Solo un test para dibujar lineas en un mapa
+#
 def informe (peticion, idUsr):
     usuario = AuthUser.objects.get(pk=idUsr)
     modelo = Track.objects.filter(usr = idUsr)
