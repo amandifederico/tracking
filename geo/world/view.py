@@ -40,7 +40,7 @@ def postgps(peticion,idUsr,longitud,latitud):
 def report (peticion):
 	cod="new google.maps.LatLng("
 	modelo = Track.objects.all()
-	modelo = modelo.filter(usr=4)
+	modelo = modelo.filter(usr=1)
 	centro = (-43.29632,-65.08785)
 	valor = modelo
 	return render_to_response('report.html',{'centro':centro,'valor':valor},)
@@ -71,17 +71,23 @@ def distancia (listD):
         TAM = len(listD)
         i = 0
         resultado = 0
-        
-	while i <= TAM-1:
-		if i+1 != TAM:
-                	p1 = listD[i]
-                	p2 = listD[i+1]
-	                #p1 = p1.transform(900913)
-        	        #p2 = p2.transform(900913)
-                	l = LineString(p1,p2)
-                	resultado = resultado + l.length
-                i = i+1
-        return resultado
+	if TAM > 1:
+		while i <= TAM-1:
+			if i+1 != TAM:
+                		p1 = listD[i]
+                		p2 = listD[i+1]
+	                	#p1 = p1.transform(900913)
+        	        	#p2 = p2.transform(900913)
+				#p1=fromstr('POINT('+str(p1[0])+' '+str(p1[1])+')' ,srid = 4326).transform(900913, clone=True)
+				#p2=fromstr('POINT('+str(p2[0])+' '+str(p2[1])+')' ,srid = 4326).transform(900913, clone=True)
+        	        	l = LineString(p1,p2)
+                		resultado = resultado + l.length
+                        	#p1=fromstr('POINT('+str(p1[0])+' '+str(p1[1])+')').transform(900913, clone=True)
+	                        #p2=fromstr('POINT('+str(p2[0])+' '+str(p2[1])+')').transform(900913, clone=True)
+				#resultado = resultado + p1.distance(p2)
+                	i = i+1
+	
+        return resultado * 100000
 
 #
 #Retorna la distancia total de un recorrido
@@ -92,6 +98,7 @@ def testDist (peticion):
         modelo = Track.objects.all()
 	modelo = modelo.filter(usr=1)
         centro = (-43.297073,-65.090564)
+	valor = modelo
 	listD = list()
 	for mod in modelo:
 		#pnt = GEOSGeometry('Point('+mod.lat+' '+ mod.lon+')')
@@ -99,7 +106,7 @@ def testDist (peticion):
 		listD.append(pnt)
 	resultado = distancia(listD)
 
-	return render_to_response('distancia.html',{'recorrido':modelo,'resultado':resultado},)
+	return render_to_response('distancia.html',{'recorrido':modelo,'resultado':str(round(resultado,3)), 'valor':valor},)
 
 def valUsr (peticion, hashUsr):
         key = '0123456789abcdef'
