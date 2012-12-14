@@ -19,7 +19,7 @@ def sqlQuery():
     return connection.cursor()
 
 def index(request):
-    return HttpResponse('Hello')
+    return HttpResponse('Hola humano!')
 
 #
 #Postea una posicion
